@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>INDUX-OS | Reborn Innovators</title>
+<style>
+body{font-family:Inter,sans-serif;background:#070a14;color:white;margin:0;padding:20px}
+.card{background:#111827;border:1px solid #1f2937;border-radius:16px;padding:20px;margin:12px 0}
+.btn{padding:12px 20px;border-radius:999px;border:none;font-weight:700;cursor:pointer}
+.btn-green{background:linear-gradient(135deg,#0f9d4e,#2cf6b3);color:black}
+.btn-blue{background:linear-gradient(135deg,#1d4ed8,#7c3aed);color:white}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.tag{background:#1f2937;padding:4px 10px;border-radius:999px;font-size:0.7rem;margin:2px;display:inline-block}
+</style>
+</head>
+<body>
+<h1>🔥 INDUX-OS: Factory Intelligence Platform</h1>
+<p>Team Reborn Innovators | InduX5-26VU-353 | PS-02 + PS-03 + PS-04 + PS-17</p>
+<div class="grid">
+<div class="card"><span class="tag">PS-02</span><h3>📚 SOP-Genius</h3><p>Multimodal RAG - Photo + Voice → Cited SOP answer with page number</p></div>
+<div class="card"><span class="tag">PS-03</span><h3>⚙️ Predictive Maintenance</h3><p>IoT vibration/temp → Predicts failure 48h before → Auto-fetches SOP</p></div>
+<div class="card"><span class="tag">PS-04</span><h3>👁️ Quality Inspection</h3><p>Edge-AI camera → Defect detection 45ms → SOP corrective action</p></div>
+<div class="card"><span class="tag">PS-17</span><h3>🦺 Safety Early-Warning</h3><p>Wearable fatigue/heat → Blocks SOP until safety checklist done</p></div>
+</div>
+
+<div class="card">
+<h3>🚀 Live Demo - Try Now</h3>
+<input id="q" placeholder="Ask: bearing failure kyu? or Motor overheating or Quality defect?" style="width:70%;padding:10px;border-radius:8px">
+<button class="btn btn-green" onclick="ask()">Ask SOP-Genius</button>
+<button class="btn btn-blue" onclick="predict()">Test Predictive Sensor</button>
+<div id="out" style="margin-top:12px;background:black;padding:12px;border-radius:8px;white-space:pre-wrap"></div>
+</div>
+
+<div class="card">
+<h3>🔗 Backend API</h3>
+<p>Backend: <a id="backendLink" href="#" style="color:#2cf6b3" target="_blank">Loading...</a> /docs</p>
+<p>Try: /api/sop-query , /api/predictive-data , /api/quality-inspect</p>
+</div>
+
+<script>
+const BACKEND = "https://indux-os-backend.onrender.com"; // Change after Render deploy
+document.getElementById('backendLink').href = BACKEND + "/docs";
+document.getElementById('backendLink').innerText = BACKEND;
+
+async function ask(){
+ const query = document.getElementById('q').value || "bearing vibration high hai, kya karu?";
+ const res = await fetch(BACKEND + "/api/sop-query", {
+   method:"POST", headers:{"Content-Type":"application/json"},
+   body: JSON.stringify({query, sensor_data:{vibration:5.2, temperature:88}, image_base64:"dummy"})
+ });
+ const data = await res.json();
+ document.getElementById('out').innerText = JSON.stringify(data, null, 2);
+}
+async function predict(){
+ const res = await fetch(BACKEND + "/api/predictive-data", {
+   method:"POST", headers:{"Content-Type":"application/json"},
+   body: JSON.stringify({vibration:5.8, temperature:89})
+ });
+ const data = await res.json();
+ document.getElementById('out').innerText = "PS-03 Predictive:\n" + JSON.stringify(data, null, 2);
+}
+</script>
+</body>
+</html>
