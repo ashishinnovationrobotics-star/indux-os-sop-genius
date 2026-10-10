@@ -1,0 +1,7 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "https://indux-os-sop-genius-backend.onrender.com/api/:path*" },
+    { "source": "/docs", "destination": "https://indux-os-sop-genius-backend.onrender.com/docs" }
+  ]
+}
